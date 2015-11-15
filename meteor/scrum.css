@@ -2,3 +2,81 @@
 .submit-add-team {
 	
 }
+
+body {
+  font-family: sans-serif;
+  margin:0;
+  padding:0;
+}
+
+.container {
+  max-width: 200px;
+  margin: 0 auto;
+  min-height: 100%;
+  background: white;
+}
+
+title {
+  background: #59b300;
+  padding: 20px 15px 15px 15px;
+  
+  position: relative;
+}
+
+h1 {
+  font-size: 60px;
+  margin: 0;
+  margin-bottom: 10px;
+  display: inline-block;
+  margin-right: 1em;
+}
+#wrap{
+	position: relative;
+}
+
+#sidebar{
+	 position: absolute;
+    top: 0;
+    bottom: 0;  /*  this line, and the one above, confer full-height */
+    left: 0;
+    width: 30%;
+    padding: 5px 5px 5px 5px;
+	color: white;
+	background-color: black;
+	
+}
+
+#posts{
+	margin: 0 0 0 33%;
+	width:64%;
+	text-align:right;
+	padding: 5px 5px 5px 5px;
+	background-color: #e8e8e8;
+	display: inline-block;
+	overflow: auto;
+}
+
+
+.new-post input {
+  text-align: right
+  box-sizing: border-box;
+  padding: 10px 0;
+  background: transparent;
+  border: none;
+  width: 80%;
+  padding-right: 80px;
+  font-size: 1em;
+}
+
+.new-team input {
+  text-align: right
+  box-sizing: border-box;
+  margin:2px, 2px, 2px, 2px;
+  border: none;
+  font-size: 1em;
+}
+
+.new-team-button input{
+	background: white;
+	color: white;
+}

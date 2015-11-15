@@ -47,7 +47,8 @@ if (Meteor.isClient) {
       var team_name = event.target.inputTeamName.value;
       
      Meteor.call("addTeam", team_name);
-  
+      
+      event.target.inputTeamName.value = "";
     },
     "submit .new-post":function(event){
       event.preventDefault();

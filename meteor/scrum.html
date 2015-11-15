@@ -1,31 +1,34 @@
 <head>
-  <title>scrum</title>
+  <title>Scrum</title>
 </head>
 
 <body>
+  <div id="wrap">
+  <div id="sidebar">
   <h1>Scrum</h1>
 	{{> loginButtons }}
-	<br>
-	{{#if currentUser}}
-  <form class = "new-team"> 
-  <input type="text" name="inputTeamName" placeholder="Team Name">
-  <input type="submit" value="Add Team">
+	
+  <form class="new-team"> 
+  	<input type="text" name="inputTeamName" placeholder="Team Name">
+  	<input type="submit" value="Add Team">
   </form>
-  <br>
-  
     <ul>
       {{#each teams}}
         {{> team}}
       {{/each}}
     </ul>
     <br>
+	</div>
+	<div id="posts">
       <form class="new-post">
         <input type="text" name="post" placeholder="Send a message">
       </form>
-    {{/if}}
+    
       {{#each posts}}
         {{> post}}
       {{/each}}
+      </div>
+      </div>
 </body>
 <template name="team">
   <li>
@@ -38,6 +41,6 @@
   {{/each}}
 </template>
 <template name = "post">
-	<span class = "text">{{post}}</span>
+	<span class = "posts">{{post}}</span>
 	<br>
 </template>
