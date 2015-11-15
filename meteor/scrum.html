@@ -12,7 +12,7 @@
   <input type="submit" value="Add Team">
   </form>
   <br>
-  
+  {{/if}}
     <ul>
       {{#each teams}}
         {{> team}}
@@ -22,20 +22,28 @@
       <form class="new-post">
         <input type="text" name="post" placeholder="Send a message">
       </form>
-    {{/if}}
-      {{#each posts}}
-        {{> post}}
-      {{/each}}
+
 </body>
 <template name="team">
   <li>
     <span class="text"><strong>{{teamName}}</strong></span>
   </li>
-  {{#each users}}
+  {{#if isOwner}}
+    <form class = "new-member"> 
+      <input type="text" name="new_member" placeholder="Add New Member's Username">
+      <input type=submit value="add_new_member">
+    </form>
+  {{/if}}
+
+      {{#if isMember}}
+      {{#each posts}}
+        {{> post}}
+      {{/each}}
+      {{/if}}
   	<li>
     	<span class="text">{{user}}</span>
   	</li>
-  {{/each}}
+  
 </template>
 <template name = "post">
 	<span class = "text">{{post}}</span>

@@ -1,5 +1,5 @@
 Teams = new Mongo.Collection("teams");
-Rooms = new Mongo.Collection("rooms");
+Posts = new Mongo.Collection("rooms");
 if (Meteor.isServer) {
 
   Meteor.publish("userData", function () {
@@ -13,8 +13,8 @@ if (Meteor.isServer) {
   });
 
 
-  Meteor.publish("rooms", function () {
-     return Rooms.find();
+  Meteor.publish("posts", function () {
+     return Posts.find();
   });
 
 }
@@ -23,7 +23,7 @@ if (Meteor.isClient) {
   
   Meteor.subscribe("teams");
 
-  Meteor.subscribe("rooms");
+  Meteor.subscribe("posts");
   Meteor.subscribe("userData");
   
 
@@ -36,7 +36,7 @@ if (Meteor.isClient) {
       },
     posts: function(){
         // Return all of the teams
-        return Rooms.find({}, {sort: {createdAt: -1}});      
+        return Posts.find({}, {sort: {createdAt: -1}});      
     }
   });
 
@@ -47,7 +47,7 @@ if (Meteor.isClient) {
       var team_name = event.target.inputTeamName.value;
       
      Meteor.call("addTeam", team_name);
-  
+    event.target.inputTeamName.value = "";
     },
     "submit .new-post":function(event){
       event.preventDefault();
@@ -57,6 +57,45 @@ if (Meteor.isClient) {
       Meteor.call("setPost",postContents);
 
       event.target.post.value = "";
+    }
+   
+  });
+
+   Template.team.helpers({
+
+    isOwner: function () {
+
+      return this.owner === Meteor.userId();
+
+    },
+    isMember: function () {
+      if (! Meteor.userId()) {
+        throw new Meteor.Error("not-authorized");
+      }
+      
+      var team_members = _.values(this.members);
+      //console.log(team_members.);
+      //var member_found = "false";
+      for (var i in team_members) {
+        console.log(team_members[i].user);
+        console.log(Meteor.userId());
+        if (team_members[i].user === Meteor.userId() ) {
+          return "true";
+
+        }
+      };
+      return "false";
+    }
+
+
+  });
+  Template.team.events({
+     "submit .new-member":function(event) {
+      event.preventDefault();
+      var member_name = event.target.new_member.value;
+
+      Meteor.call("addMember", member_name, this._id);
+      event.target.new_member.value = "";
     }
   });
 
@@ -91,10 +130,16 @@ if (Meteor.isClient) {
 
   },
   setPost: function (postContents){
-    Rooms.insert({
+    Posts.insert({
       createdAt: new Date(),
       post : postContents
     })
   
+  },
+ addMember: function(memberName, teamId) {
+    var team = Teams.findOne(teamId);
+    var member = Meteor.users.find({username: memberName});
+    Teams.update(teamId, {$addToSet: {"members": member._id}} );
+
   }
 });
