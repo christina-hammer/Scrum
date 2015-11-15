@@ -65,7 +65,6 @@ if (Meteor.isClient) {
   });
 }
 
-
  Meteor.methods({
   addTeam: function (teamName) {
     if (! Meteor.userId()) {
