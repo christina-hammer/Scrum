@@ -6,7 +6,8 @@
   <h1>Scrum</h1>
 	{{> loginButtons }}
 	<br>
-  <form> 
+	{{#if currentUser}}
+  <form class = "new-team"> 
   <input type="text" name="inputTeamName" placeholder="Team Name">
   <input type="submit" value="Add Team">
   </form>
@@ -17,6 +18,14 @@
         {{> team}}
       {{/each}}
     </ul>
+    <br>
+      <form class="new-post">
+        <input type="text" name="post" placeholder="Send a message">
+      </form>
+    {{/if}}
+      {{#each posts}}
+        {{> post}}
+      {{/each}}
 </body>
 <template name="team">
   <li>
@@ -27,4 +36,8 @@
     	<span class="text">{{user}}</span>
   	</li>
   {{/each}}
+</template>
+<template name = "post">
+	<span class = "text">{{post}}</span>
+	<br>
 </template>
