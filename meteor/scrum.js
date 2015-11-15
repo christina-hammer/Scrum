@@ -12,23 +12,19 @@ if (Meteor.isServer) {
     return Teams.find({owner: this.userId});
   });
 
-<<<<<<< HEAD
+
   Meteor.publish("rooms", function () {
      return Rooms.find();
   });
-=======
->>>>>>> thatonemeteorthatkilledallthedinosaurs
+
 }
 
 if (Meteor.isClient) {
   
   Meteor.subscribe("teams");
-<<<<<<< HEAD
-  Meteor.subscribe("rooms");
 
-=======
+  Meteor.subscribe("rooms");
   Meteor.subscribe("userData");
->>>>>>> thatonemeteorthatkilledallthedinosaurs
   
 
   Template.body.helpers({
@@ -36,43 +32,34 @@ if (Meteor.isClient) {
         // Return all of the teams
         
         return Teams.find({}, {sort: {createdAt: -1}});
-<<<<<<< HEAD
+
       },
     posts: function(){
         // Return all of the teams
         return Rooms.find({}, {sort: {createdAt: -1}});      
     }
-=======
-
-      }
-
->>>>>>> thatonemeteorthatkilledallthedinosaurs
   });
 
   Template.body.events({
-  "submit .new-team":function (event) {
-    event.preventDefault();
-    //set up the checked property to the opposite of its current value
-    var team_name = event.target.inputTeamName.value;
-    
-   Meteor.call("addTeam", team_name);
-<<<<<<< HEAD
-  },
-  "submit .new-post":function(event){
-    event.preventDefault();
-=======
-   
+    "submit .new-team":function (event) {
+      event.preventDefault();
+      //set up the checked property to the opposite of its current value
+      var team_name = event.target.inputTeamName.value;
+      
+     Meteor.call("addTeam", team_name);
   
+    },
+    "submit .new-post":function(event){
+      event.preventDefault();
 
-  }
->>>>>>> thatonemeteorthatkilledallthedinosaurs
 
-    var postContents = event.target.post.value;
 
-    Meteor.call("setPost",postContents);
+      var postContents = event.target.post.value;
 
-    event.target.post.value = "";
-  }
+      Meteor.call("setPost",postContents);
+
+      event.target.post.value = "";
+    }
   });
 
   Accounts.ui.config({
@@ -87,48 +74,31 @@ if (Meteor.isClient) {
     if (! Meteor.userId()) {
       throw new Meteor.Error("not-authorized");
     }
-<<<<<<< HEAD
 
-    Rooms.insert({
-      posts:[{post:"Hello World"}]
-    }, function(error, roomId){
-          Teams.insert({
-          teamName: teamName,
-          createdAt: new Date(),
-          owner: Meteor.userId(),
-          roomId: roomId,
-          members: [{member: Meteor.userId()}],
-        }, function(error, teamid){
-          console.log(teamid);
-          console.log(error);
-          /*Meteor.users.update(Meteor.userId(),{
-            profile:[]
-          });*/        
-        });
-        });
-    console.log(Meteor.user());
-      //One unique ID is 6nmGsw8Tf8vsei6bF
-    
+
+      var result = Teams.insert({
+        teamName: teamName,
+        createdAt: new Date(),
+        owner: Meteor.userId(),
+        members: [{member: Meteor.userId()}],
+      }, function(error, teamid){
+        console.log(teamid);
+        console.log(error);
+        /*Meteor.users.update(Meteor.userId(),{
+          profile:[]
+        });*/        
+      });
+
+    var user = Meteor.users.findOne({_id: Meteor.userId()});
+   
+    Meteor.users.update({_id: user._id}, {$addToSet: {"profile.user_teams": result}} );
+
   },
   setPost: function (postContents){
     Rooms.insert({
       createdAt: new Date(),
       post : postContents
-=======
-    var result = Teams.insert({
-      teamName: teamName,
-      createdAt: new Date(),
-      owner: Meteor.userId(),
-      members: [{user:Meteor.userId()}]
-
->>>>>>> thatonemeteorthatkilledallthedinosaurs
-    });
-    //console.log(result);
-
-    var user = Meteor.users.findOne({_id: Meteor.userId()});
-   
-   Meteor.users.update({_id: user._id}, {$addToSet: {"profile.user_teams": result}} );
-    
-
+    })
+  
   }
 });
