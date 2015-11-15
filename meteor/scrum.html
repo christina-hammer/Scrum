@@ -6,6 +6,12 @@
   <h1>Scrum</h1>
 	{{> loginButtons }}
 	<br>
+  <form> 
+  <input type="text" name="inputTeamName" placeholder="Team Name">
+  <input type="submit" value="Add Team">
+  </form>
+  <br>
+  
     <ul>
       {{#each teams}}
         {{> team}}

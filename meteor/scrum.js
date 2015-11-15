@@ -10,7 +10,7 @@ if (Meteor.isClient) {
   
   Meteor.subscribe("teams");
 
-  Meteor.call("addTeam", "Alex and Kit dream town, population 2");
+  
 
   Template.body.helpers({
     teams: function () {
@@ -18,6 +18,18 @@ if (Meteor.isClient) {
         return Teams.find({}, {sort: {createdAt: -1}});
       }
   });
+
+  Template.body.events({
+  "submit form":function (event) {
+    event.preventDefault();
+    //set up the checked property to the opposite of its current value
+    var team_name = event.target.inputTeamName.value;
+    
+   Meteor.call("addTeam", team_name);
+  }
+
+  });
+
   Accounts.ui.config({
     passwordSignupFields: "USERNAME_ONLY"
   });
