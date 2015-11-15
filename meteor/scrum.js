@@ -52,8 +52,6 @@ if (Meteor.isClient) {
     "submit .new-post":function(event){
       event.preventDefault();
 
-
-
       var postContents = event.target.post.value;
 
       Meteor.call("setPost",postContents);
