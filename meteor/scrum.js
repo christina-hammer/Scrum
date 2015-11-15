@@ -1,23 +1,39 @@
-if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
-
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
-
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
-}
+Teams = new Mongo.Collection("teams");
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
   });
 }
+
+if (Meteor.isClient) {
+  
+  Meteor.subscribe("teams");
+
+  Meteor.call("addTeam", "Alex and Kit dream town, population 2");
+
+  Template.body.helpers({
+    teams: function () {
+        // Return all of the teams
+        return Teams.find({}, {sort: {createdAt: -1}});
+      }
+  });
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+  });
+}
+
+
+ Meteor.methods({
+  addTeam: function (teamName) {
+    if (! Meteor.userId()) {
+      throw new Meteor.Error("not-authorized");
+    }
+    Teams.insert({
+      teamName: teamName,
+      createdAt: new Date(),
+      owner: Meteor.userId(),
+      users: [{user:Meteor.userId()}]
+    });
+  }
+});
